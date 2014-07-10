@@ -29,15 +29,15 @@ int main() {
 	ColorMap* cm;
 	// printf("0 ^ 0 = %d\n", pow(0, 0));
 
-	pMin.x = -100;
-	pMin.y = -100;
-	pMax.x = 100;
-	pMax.y = 100;
+	pMin.x = -20;
+	pMin.y = -20;
+	pMax.x = 10;
+	pMax.y = 15;
 
 	u.pMin = pMin;
 	u.pMax = pMax;
 
-	vp = createViewPort(pMin, pMax, &u);
+	vp = createViewPort(newPoint(-8.0, -7.0), newPoint(5, 5), &u);
 	if (vp == NULL) {
 		printf("Erro de alocacao do veiwport\n");
 		exit(0);
@@ -54,12 +54,12 @@ int main() {
 		exit(0);
 	}
 
-	if (!addColor(cm, 0, 0, 0, 0, 0)) {
+	if (!addColor(cm, 0, 255, 255, 255, 0)) {
 		printf("[ERRO] cor '0' nao pode ser inserida no mapa de cores\n");
 		exit(0);
 	}
 
-	if (!addColor(cm, 1, 255, 255, 255, 0)) {
+	if (!addColor(cm, 1, 0, 0, 0, 0)) {
 		printf("[ERRO] cor '1' nao pode ser inserida no mapa de cores\n");
 		exit(0);
 	}
@@ -69,84 +69,34 @@ int main() {
 		exit(0);
 	}
 
-	if (!addColor(cm, 3, 255, 0, 255, 0)) {
+	if (!addColor(cm, 3, 0, 0, 255, 0)) {
 		printf("[ERRO] cor '3' nao pode ser inserida no mapa de cores\n");
 		exit(0);
 	}
 
-	if (!addColor(cm, 4, 255, 255, 0, 0)) {
-		printf("[ERRO] cor '4' nao pode ser inserida no mapa de cores\n");
-		exit(0);
-	}
 
-	if (!addColor(cm, 5, 0, 255, 0, 0)) {
-		printf("[ERRO] cor '4' nao pode ser inserida no mapa de cores\n");
-		exit(0);
-	}
-
-	/* readLine(&line);
-
-	line.p1 = sru2srn(line.p1, pMin, pMax);
-	line.p2 = sru2srn(line.p2, pMin, pMax);
-
-
-	line.p1 = srn2srd(line.p1, MAXIMOX, MAXIMOY);
-	line.p2 = srn2srd(line.p2, MAXIMOX, MAXIMOY);
-
-	// drawLine(line,vp,1);
-
-	drawLineMidPoint(line, vp, 1); */
-
-	int polylineCount = 3;
+	int polylineCount = 2;
 	Polyline polylines[polylineCount];
 
-	polylines[0] = newRectangle(newPoint(10, 30), newPoint(70, 0));
-	polylines[1] = newRegularPolygon(50, newPoint(0, 0), 30);
-
-	// move(&polylines[1], newPoint(99, -90));
-	// scale(&(polylines[0]), 0.5, centerOf(polylines[0]));
-	// scale(&(polylines[1]), 2, centerOf(polylines[1]));
-	/* polylines[2] = newPolyline(3, false);
-	polylines[2].points[0] = newPoint(30, 30);
-	polylines[2].points[1] = newPoint(50, 45);
-	polylines[2].points[2] = newPoint(70, 30); */
-
-	polylines[2] = (clone(polylines[0]));
-	move(&polylines[2], newPoint(0, -40));
-	// polylines[2] = newRectangle(newPoint(30, -10), newPoint(70, -40));
-
-	/*
-	// move(&polylines[2], newPoint(30, 30));
-
-	polylines[3] = clone(polylines[2]);
-	polylines[4] = clone(polylines[0]); */
-	/* polylines[5] = newPolyline(2, false);
-	polylines[5].points[0] = newPoint(-150, 150);
-	polylines[5].points[1] = newPoint(99, -99); */
-
-	rotateCCW(&(polylines[0]), 45, newPoint(0, 0));
-	// rotateCCW(&(polylines[2]), 90, newPoint(0, 0));
+	polylines[0] = newRectangle(newPoint(-6, -6), newPoint(-1, -2));
+	polylines[1] = newPolyline(5, true);
+	polylines[1].points[0] = newPoint(-7.0,-3.0);
+	polylines[1].points[1] = newPoint(-4.0,-4.0);
+	polylines[1].points[2] = newPoint(-3.0,-6.0);
+	polylines[1].points[3] = newPoint(-6.0,-9.0);
+	polylines[1].points[4] = newPoint(-9.0,-8.0);
 
 
 	for (j = 0; j < polylineCount; j++) {
 		for (i = 0; i < polylines[j].pointCount; i++) {
-			polylines[j].points[i] = sru2srn(polylines[j].points[i], pMin, pMax);
+			polylines[j].points[i] = sru2srn(polylines[j].points[i], vp->pMin, vp->pMax);
 		}
 		for (i = 0; i < polylines[j].pointCount; i++) {
 			polylines[j].points[i] = srn2srd(polylines[j].points[i], MAXIMOX, MAXIMOY);
-		}
-		drawPolyLine(polylines[j], vp, 1);
-		Point center = centerOf(polylines[j]);
-		fill(&center, vp, j + 3);
+		}	
 	}
-
-
-	/* for (j = 0; j < polylineCount; j++) {
-		// drawPolyLine(polylines[j], vp, 1);
-		Point center = centerOf(polylines[j]);
-		fill(&center, vp, j + 3);
-	} */
-
+	drawPolyLine(polylines[0], vp, 3);
+	drawPolyLine(polylines[1], vp, 2);
 
 	show(vp, cm);
 

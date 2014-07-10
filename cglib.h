@@ -7,8 +7,8 @@
 #define true 1
 #define false 0
 
-#define MAXIMOX 700
-#define MAXIMOY 700
+#define MAXIMOX 640
+#define MAXIMOY 480
 
 typedef struct {
 	float x;

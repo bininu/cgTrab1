@@ -118,8 +118,8 @@ ViewPort* createViewPort(Point pMin, Point pMax, Universe* u) {
 		newViewPort->pMin = pMin;
 		newViewPort->pMax = pMax;
 		newViewPort->universe = u;
-		newViewPort->pMinSRD = sru2srn(pMin, u->pMin, u->pMax);
-		newViewPort->pMaxSRD = sru2srn(pMax, u->pMin, u->pMax);
+		newViewPort->pMinSRD = sru2srn(pMin, pMin, pMax);
+		newViewPort->pMaxSRD = sru2srn(pMax, pMin, pMax);
 
 	}
 
